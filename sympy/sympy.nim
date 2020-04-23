@@ -2,7 +2,9 @@ import macroutils
 import macros
 import nimpy
 
-let sympy* = pyImport("sympy")
+proc Sympy*(): PyObject = pyImport("sympy")
+
+let sympy* = Sympy()
 
 macro symbols *(input: untyped): untyped =
   result = StmtList()
@@ -14,7 +16,7 @@ macro symbols *(input: untyped): untyped =
       newEmptyNode(),
       Call(
         DotExpr(
-          newIdentNode("sp"),
+          newIdentNode("sympy"),
           newIdentNode("symbols")),
         
           newLit(sym.repr))
@@ -23,32 +25,39 @@ macro symbols *(input: untyped): untyped =
   result.add(l)
  
 proc `+` *(x:Pyobject, y:SomeNumber): PyObject =
-    result = sp.sympify($x & "+" & $y)
+    result = sympy.sympify($x & "+" & $y)
 proc `+` *(x:SomeNumber, y:PyObject): PyObject =
-    result = sp.sympify($x & "+" & $y)
+    result = sympy.sympify($x & "+" & $y)
 proc `+` *(x:PyObject, y:PyObject): PyObject =
-    result = sp.sympify($x & "+" & $y)
+    result = sympy.sympify($x & "+" & $y)
 proc `-` *(x:Pyobject, y:SomeNumber): PyObject =
-    result = sp.sympify($x & "-" & $y)  
+    result = sympy.sympify($x & "-" & $y)  
 proc `-` *(x:SomeNumber, y:PyObject): PyObject =
-    result = sp.sympify($x & "-" & $y) 
+    result = sympy.sympify($x & "-" & $y) 
 proc `-` *(x:PyObject, y:PyObject): PyObject =
-    result = sp.sympify($x & "-" & $y) 
+    result = sympy.sympify($x & "-" & $y) 
 proc `*` *(x:Pyobject, y:SomeNumber): PyObject =
-    result = sp.sympify($x & "*" & $y)
+    result = sympy.sympify($x & "*" & $y)
 proc `*` *(x:SomeNumber, y:PyObject): PyObject =
-    result = sp.sympify($x & "*" & $y)
+    result = sympy.sympify($x & "*" & $y)
 proc `*` *(x:PyObject, y:PyObject): PyObject =
-    result = sp.sympify($x & "*" & $y)
+    result = sympy.sympify($x & "*" & $y)
 proc `/` *(x:Pyobject, y:SomeNumber): PyObject =
-    result = sp.sympify($x & "/" & $y)
+    result = sympy.sympify($x & "/" & $y)
 proc `/` *(x:SomeNumber, y:PyObject): PyObject =
-    result = sp.sympify($x & "/" & $y)
+    result = sympy.sympify($x & "/" & $y)
 proc `/` *(x:PyObject, y:PyObject): PyObject =
-    result = sp.sympify($x & "/" & $y)
+    result = sympy.sympify($x & "/" & $y)
 proc `**` *(x:Pyobject, y:SomeNumber): PyObject =
-    result = sp.sympify($x & "**" & $y)
+    result = sympy.sympify($x & "**" & $y)
 proc `**` *(x:SomeNumber, y:PyObject): PyObject =
-    result = sp.sympify($x & "**" & $y)
+    result = sympy.sympify($x & "**" & $y)
 proc `**` *(x:PyObject, y:PyObject): PyObject =
-    result = sp.sympify($x & "**" & $y)
+    result = sympy.sympify($x & "**" & $y)
+
+if isMainModule:
+    symbols:
+        x
+        y
+        z
+    echo x**2 + y**2 + z**2 - 1
