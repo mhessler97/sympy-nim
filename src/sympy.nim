@@ -2,10 +2,7 @@ import macroutils
 import macros
 import nimpy
 
-proc sympy (): PyObject =
-  result = pyImport("sympy")
-
-let sp* = sympy()
+let sympy* = pyImport("sympy")
 
 macro symbols *(input: untyped): untyped =
   result = StmtList()
